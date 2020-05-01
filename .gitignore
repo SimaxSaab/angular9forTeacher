@@ -47,7 +47,7 @@ Thumbs.db
 
 /e2e
 .editorconfig
-angular.json
+#angular.json
 browserslist
 karma.conf.js
 package-lock.json
