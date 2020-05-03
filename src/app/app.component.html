@@ -2,39 +2,77 @@
   <div class="row">
     <div class="col-md-4 offset-md-4">
       <div class="card bg-light">
+        <!-- Head of Group -->
         <div class="form-group">
           <label for="actionText" style="display: block;"
-            >Выбрать группу:</label
-          >
+            >Выбрать группу:</label>
           <select
-            class="form-control ml-2"
+            class="form-control ml-2 width-46"
             id="actionText"
-            style="float: left; width: 47%;"
           ></select>
           <button
-            class="btn btn-block btn-info mx-2"
-            (click)="showOption = !showOption"
-            style="float: left; width: 46%;"
+            class="btn btn-block btn-info mx-2 width-46"
+            (click)="signShowGroupOption = !signShowGroupOption; showGroupOption();"
+            [disabled]="signAddNewGroupOption || signEditGroupOption || signDeleteGroupOption"
           >
-            Опции
+            {{captionGroupOption}}
           </button>
         </div>
-        <div *ngIf="showOption" class="form-group">
-          <button
-          class="btn btn-block btn-warning mx-2 buttonWidth-95"
-          >
-            Редактировать выбранную группу
-          </button>
-          <button
-          class="btn btn-block btn-success mx-2 buttonWidth-95"
-          >
-            Добавить новую группу
-          </button>
-          <button
-          class="btn btn-block btn-danger mx-2 buttonWidth-95"
-          >
-            Удалить выбранную группу
-          </button>
+        <!-- Group option -->
+        <div *ngIf="signShowGroupOption" class="form-group">
+          <!-- NEW -->
+          <div *ngIf="!signEditGroupOption && !signDeleteGroupOption">
+            <hr>
+            <label *ngIf="signAddNewGroupOption" for="addNewGroup" style="display: block;"
+              >Новая группа:</label>
+            <input *ngIf="signAddNewGroupOption" class="form-control ml-2 mb-2 width-46" type="text" name="" id="addNewGroup">
+            <button *ngIf="signAddNewGroupOption" (click)="signAddNewGroupOption=!signAddNewGroupOption; showAddNewGroupOption();"
+              class="btn btn-block btn-info mx-2 mb-2 width-46"
+            >
+              Отмена
+            </button>
+            <button (click)="signAddNewGroupOption=!signAddNewGroupOption; showAddNewGroupOption();"
+            class="btn btn-block btn-success mx-2 buttonWidth-95"
+            >
+              {{captionAddNewGroupOption}}
+            </button>
+          </div>
+          <!-- EDIT -->
+          <hr *ngIf="!signAddNewGroupOption">
+          <div *ngIf="!signAddNewGroupOption && !signDeleteGroupOption" class="mb-2">
+            <label *ngIf="signEditGroupOption" for="editGroup" style="display: block;"
+              >Редактируем:</label>
+            <input *ngIf="signEditGroupOption" class="form-control ml-2 mb-2 width-46" type="text" name="" id="editGroup">
+            <button *ngIf="signEditGroupOption" (click)="signEditGroupOption=!signEditGroupOption; showEditGroupOption();"
+              class="btn btn-block btn-info mx-2 mb-2 width-46"
+            >
+              Отмена
+            </button>
+            <button (click)="signEditGroupOption=!signEditGroupOption; showEditGroupOption();"
+            class="btn btn-block btn-warning mx-2 buttonWidth-95"
+            >
+              {{captionEditGroupOption}}
+            </button>
+          </div>
+          <!-- DELETE -->
+          <div *ngIf="!signAddNewGroupOption && !signEditGroupOption">
+            <p *ngIf="signDeleteGroupOption" style="text-align:center;">Удалить безвозвратно?</p>
+            <button *ngIf="signDeleteGroupOption"
+              class="btn btn-danger ml-2 width-46"
+            >
+              Да
+            </button>
+            <button *ngIf="signDeleteGroupOption" (click)="signDeleteGroupOption=!signDeleteGroupOption"
+              class="btn btn-success mx-2 width-46"
+            >
+              Нет
+            </button>
+            <button *ngIf="!signDeleteGroupOption" (click)="signDeleteGroupOption=!signDeleteGroupOption"
+            class="btn btn-block btn-danger mx-2 buttonWidth-95"
+            >
+              Удалить выбранную группу
+            </button>
+          </div>
      
         </div>
       </div>
