@@ -9,7 +9,10 @@
           <select
             class="form-control ml-2 width-46"
             id="actionText"
-          ></select>
+            [(ngModel)]="nameEditGroup"
+          >
+            <option *ngFor="let g of groups" [value]="g.name">{{g.name}}</option>
+          </select>
           <button
             class="btn btn-block btn-info mx-2 width-46"
             (click)="signShowGroupOption = !signShowGroupOption; showGroupOption();"
@@ -25,13 +28,13 @@
             <hr>
             <label *ngIf="signAddNewGroupOption" for="addNewGroup" style="display: block;"
               >Новая группа:</label>
-            <input *ngIf="signAddNewGroupOption" class="form-control ml-2 mb-2 width-46" type="text" name="" id="addNewGroup">
+            <input *ngIf="signAddNewGroupOption" [(ngModel)]="nameNewGroup" class="form-control ml-2 mb-2 width-46" type="text" name="" id="addNewGroup">
             <button *ngIf="signAddNewGroupOption" (click)="signAddNewGroupOption=!signAddNewGroupOption; showAddNewGroupOption();"
               class="btn btn-block btn-info mx-2 mb-2 width-46"
             >
               Отмена
             </button>
-            <button (click)="signAddNewGroupOption=!signAddNewGroupOption; showAddNewGroupOption();"
+            <button (click)="addNewGroup(); signAddNewGroupOption=!signAddNewGroupOption; showAddNewGroupOption();"
             class="btn btn-block btn-success mx-2 buttonWidth-95"
             >
               {{captionAddNewGroupOption}}
@@ -42,13 +45,13 @@
           <div *ngIf="!signAddNewGroupOption && !signDeleteGroupOption" class="mb-2">
             <label *ngIf="signEditGroupOption" for="editGroup" style="display: block;"
               >Редактируем:</label>
-            <input *ngIf="signEditGroupOption" class="form-control ml-2 mb-2 width-46" type="text" name="" id="editGroup">
+            <input [value]="nameEditGroup" [(ngModel)]="newNameEditGroup" *ngIf="signEditGroupOption" class="form-control ml-2 mb-2 width-46" type="text" name="" id="editGroup">
             <button *ngIf="signEditGroupOption" (click)="signEditGroupOption=!signEditGroupOption; showEditGroupOption();"
               class="btn btn-block btn-info mx-2 mb-2 width-46"
             >
               Отмена
             </button>
-            <button (click)="signEditGroupOption=!signEditGroupOption; showEditGroupOption();"
+            <button (click)="editGroup(); signEditGroupOption=!signEditGroupOption; showEditGroupOption();"
             class="btn btn-block btn-warning mx-2 buttonWidth-95"
             >
               {{captionEditGroupOption}}
@@ -57,7 +60,7 @@
           <!-- DELETE -->
           <div *ngIf="!signAddNewGroupOption && !signEditGroupOption">
             <p *ngIf="signDeleteGroupOption" style="text-align:center;">Удалить безвозвратно?</p>
-            <button *ngIf="signDeleteGroupOption"
+            <button *ngIf="signDeleteGroupOption" (click)="deleteGroup(); signDeleteGroupOption=!signDeleteGroupOption"
               class="btn btn-danger ml-2 width-46"
             >
               Да
