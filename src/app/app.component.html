@@ -1,83 +1,122 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4 offset-md-4">
+    <div class="col-md-6 offset-md-3 col-sm-12">
       <div class="card bg-light">
-        <!-- Head of Group -->
-        <div class="form-group">
-          <label for="actionText" style="display: block;"
-            >Выбрать группу:</label>
-          <select
-            class="form-control ml-2 width-46"
-            id="actionText"
-            [(ngModel)]="nameEditGroup"
-          >
-            <option *ngFor="let g of groups" [value]="g.name">{{g.name}}</option>
-          </select>
-          <button
-            class="btn btn-block btn-info mx-2 width-46"
-            (click)="signShowGroupOption = !signShowGroupOption; showGroupOption();"
-            [disabled]="signAddNewGroupOption || signEditGroupOption || signDeleteGroupOption"
-          >
-            {{captionGroupOption}}
-          </button>
-        </div>
-        <!-- Group option -->
-        <div *ngIf="signShowGroupOption" class="form-group">
-          <!-- NEW -->
-          <div *ngIf="!signEditGroupOption && !signDeleteGroupOption">
-            <hr>
-            <label *ngIf="signAddNewGroupOption" for="addNewGroup" style="display: block;"
-              >Новая группа:</label>
-            <input *ngIf="signAddNewGroupOption" [(ngModel)]="nameNewGroup" class="form-control ml-2 mb-2 width-46" type="text" name="" id="addNewGroup">
-            <button *ngIf="signAddNewGroupOption" (click)="signAddNewGroupOption=!signAddNewGroupOption; showAddNewGroupOption();"
-              class="btn btn-block btn-info mx-2 mb-2 width-46"
-            >
-              Отмена
-            </button>
-            <button (click)="addNewGroup(); signAddNewGroupOption=!signAddNewGroupOption; showAddNewGroupOption();"
-            class="btn btn-block btn-success mx-2 buttonWidth-95"
-            >
-              {{captionAddNewGroupOption}}
+        <form action="#" [formGroup]="mainForm" class="form-group">
+          <!-- Head of Group -->
+          <div class="form-group" style="display: flow-root;">
+            <label for="actionText" style="display: block;">Выбрать группу:</label>
+            <select class="form-control ml-2 width-46" id="actionText" formControlName="mainFormSelect">
+              <option *ngFor="let g of groups" [value]="g.name">  <!--[value]="g.name"-->
+                {{ g.name }}
+              </option>
+            </select>
+            <button class="btn btn-block btn-info mx-2 width-46 c1" (click)="signShowGroupOption = !signShowGroupOption; showGroupOption()" [disabled]="signAddNewGroupOption || signEditGroupOption || signDeleteGroupOption">
+              {{ captionGroupOption }}
             </button>
           </div>
-          <!-- EDIT -->
-          <hr *ngIf="!signAddNewGroupOption">
-          <div *ngIf="!signAddNewGroupOption && !signDeleteGroupOption" class="mb-2">
-            <label *ngIf="signEditGroupOption" for="editGroup" style="display: block;"
-              >Редактируем:</label>
-            <input [value]="nameEditGroup" [(ngModel)]="newNameEditGroup" *ngIf="signEditGroupOption" class="form-control ml-2 mb-2 width-46" type="text" name="" id="editGroup">
-            <button *ngIf="signEditGroupOption" (click)="signEditGroupOption=!signEditGroupOption; showEditGroupOption();"
-              class="btn btn-block btn-info mx-2 mb-2 width-46"
-            >
-              Отмена
-            </button>
-            <button (click)="editGroup(); signEditGroupOption=!signEditGroupOption; showEditGroupOption();"
-            class="btn btn-block btn-warning mx-2 buttonWidth-95"
-            >
-              {{captionEditGroupOption}}
-            </button>
+          <!-- Group option -->
+          <div *ngIf="signShowGroupOption" class="form-group c2">
+            <!-- NEW -->
+            <div *ngIf="!signEditGroupOption && !signDeleteGroupOption" class="form-group">
+              <hr class="c3" />
+              <form action="#" *ngIf="signAddNewGroupOption" [formGroup]="form" class="form-group">
+                <label for="addNewGroup" style="display: block;">Новая группа:</label>
+                <input (keydown.enter)="addNewGroup($event);" class="form-control ml-2 mb-2 width-46" type="text" name="name" id="addNewGroup" formControlName="name" required />
+                <button (click)="signAddNewGroupOption = !signAddNewGroupOption; resetAddForm()" class="btn btn-block btn-info mx-2 mb-2 width-46">
+                  Отмена
+                </button>
+                <div *ngIf="form.get('name').invalid" class="validation">
+                  <div class="small pl-2" *ngIf="form.get('name').touched && form.get('name').errors.required">
+                    Поле ввода группы не может быть пустым.
+                  </div>
+                  <div *ngIf="form.get('name').errors.minlength" class="small pl-2">
+                    Длина должна быть не менее
+                    {{ form.get("name").errors.minlength.requiredLength }}
+                    знаков. Сейчас количество символов составляет
+                    {{ form.get("name").errors.minlength.actualLength }}.
+                  </div>
+                  <div class="small pl-2" *ngIf="form.get('name').errors.maxlength">
+                    Длина должна быть не более
+                    {{ form.get("name").errors.maxlength.requiredLength }}
+                    знаков. Сейчас количество символов составляет
+                    {{ form.get("name").errors.maxlength.actualLength }}.
+                  </div>
+                  <div class="small pl-2" *ngIf="form.get('name').errors.pattern">
+                    Введите правильный формат группы: БББ-NN-N
+                  </div>
+                </div>
+                <button (click)="addNewGroup($event); signAddNewGroupOption = !signAddNewGroupOption;" class="btn btn-block btn-success mx-2 buttonWidth-95" name="sub" [disabled]="form.invalid">
+                  Создать
+                </button>
+              </form>
+              <button *ngIf="!signAddNewGroupOption" (click)="signAddNewGroupOption = !signAddNewGroupOption"
+                class="btn btn-block btn-success mx-2 buttonWidth-95">
+                Добавить новую группу
+              </button>
+            </div>
+            <!-- EDIT -->
+            <hr *ngIf="!signAddNewGroupOption" />
+            <div *ngIf="!signAddNewGroupOption && !signDeleteGroupOption" class="mb-2">
+              <form action="#" *ngIf="signEditGroupOption" [formGroup]="formEdit">
+                <div formGroupName="name1">
+                  <label for="editGroup" style="display: block;">Редактируем:</label>
+                  <div class="" *ngFor="let control of formEdit.get('name1')['controls']; let idx = index">
+                    <input value="{{mainForm.get('mainFormSelect').value}}" class="form-control ml-2 mb-2 width-46" type="text" id="editGroup" [formControlName]="idx">
+                  </div>
+                  <button (click)="signEditGroupOption = !signEditGroupOption; deleteEditInput()" class="btn btn-block btn-info mx-2 mb-2 width-46">
+                    Отмена
+                  </button>
+                  <div *ngIf="formEdit.get('name1')['controls'][0].invalid" class="validation">
+                    <div class="small pl-2" *ngIf="
+                        formEdit.get('name1')['controls'][0].touched &&
+                        formEdit.get('name1')['controls'][0].errors.required
+                      ">
+                      Поле ввода группы не может быть пустым.
+                    </div>
+                    <div class="small pl-2" *ngIf="formEdit.get('name1')['controls'][0].errors.minlength">
+                      Длина должна быть не менее
+                      {{ formEdit.get("name1")["controls"][0].errors.minlength.requiredLength }}
+                      знаков. Сейчас количество символов составляет
+                      {{ formEdit.get("name1")["controls"][0].errors.minlength.actualLength }}.
+                    </div>
+                    <div class="small pl-2" *ngIf="formEdit.get('name1')['controls'][0].errors.maxlength">
+                      Длина должна быть не более
+                      {{ formEdit.get('name1')['controls'][0].errors.maxlength.requiredLength }}
+                      знаков. Сейчас количество символов составляет
+                      {{ formEdit.get('name1')['controls'][0].errors.maxlength.actualLength }}.
+                    </div>
+                    <div class="small pl-2" *ngIf="formEdit.get('name1')['controls'][0].errors.pattern">
+                      Введите правильный формат группы: БББ-NN-N
+                    </div>
+                  </div>
+                  <button (click)="editGroup(); signEditGroupOption = !signEditGroupOption; resetMainForm();" class="btn btn-block btn-warning mx-2 buttonWidth-95" [disabled]="formEdit.get('name1')['controls'][0].invalid">
+                    Применить
+                  </button>
+                </div>
+              </form>
+              <button *ngIf="!signEditGroupOption" (click)="signEditGroupOption = !signEditGroupOption; addEditGroup()" class="btn btn-block btn-warning mx-2 buttonWidth-95" [disabled]="mainForm.get('mainFormSelect').pristine">
+                Редактировать выбранную группу
+              </button>
+            </div>
+            <!-- DELETE -->
+            <div *ngIf="!signAddNewGroupOption && !signEditGroupOption">
+              <p *ngIf="signDeleteGroupOption" style="text-align: center;">
+                Удалить безвозвратно?
+              </p>
+              <button *ngIf="signDeleteGroupOption" (click)="deleteGroup(); signDeleteGroupOption = !signDeleteGroupOption; resetMainForm();" class="btn btn-danger ml-2 width-46">
+                Да
+              </button>
+              <button *ngIf="signDeleteGroupOption" (click)="signDeleteGroupOption = !signDeleteGroupOption"
+                class="btn btn-success mx-2 width-46">
+                Нет
+              </button>
+              <button *ngIf="!signDeleteGroupOption" (click)="signDeleteGroupOption = !signDeleteGroupOption" class="btn btn-block btn-danger mx-2 buttonWidth-95" [disabled]="mainForm.get('mainFormSelect').pristine">
+                Удалить выбранную группу
+              </button>
+            </div>
           </div>
-          <!-- DELETE -->
-          <div *ngIf="!signAddNewGroupOption && !signEditGroupOption">
-            <p *ngIf="signDeleteGroupOption" style="text-align:center;">Удалить безвозвратно?</p>
-            <button *ngIf="signDeleteGroupOption" (click)="deleteGroup(); signDeleteGroupOption=!signDeleteGroupOption"
-              class="btn btn-danger ml-2 width-46"
-            >
-              Да
-            </button>
-            <button *ngIf="signDeleteGroupOption" (click)="signDeleteGroupOption=!signDeleteGroupOption"
-              class="btn btn-success mx-2 width-46"
-            >
-              Нет
-            </button>
-            <button *ngIf="!signDeleteGroupOption" (click)="signDeleteGroupOption=!signDeleteGroupOption"
-            class="btn btn-block btn-danger mx-2 buttonWidth-95"
-            >
-              Удалить выбранную группу
-            </button>
-          </div>
-     
-        </div>
+        </form>
       </div>
     </div>
   </div>

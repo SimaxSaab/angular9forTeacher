@@ -1,8 +1,22 @@
 .width-46 {
   float: left;
-  width: 46.5%;
+  width: 45.8%;
 }
 
 .buttonWidth-95 {
   width: 95%;
+}
+
+.small {
+  color: red;
+  font-size: 70%;
+  line-height: 170%;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-bottom: 5px solid mediumseagreen; 
+}
+
+input.ng-invalid.ng-touched {
+  border-bottom: 5px solid red; 
 }
