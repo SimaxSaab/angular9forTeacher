@@ -27,7 +27,28 @@ export class AppComponent implements OnInit {
   }
 
   title: string = "angular9forTeacher";
-  groups = [{ name: "ЭМС-00-1" }, { name: "ЭМС-00-2" }, { name: "ЭМС-00-3" }];
+  groups = [{ name: "ЭМС-00-1", students: 
+              [
+                {lname:"Иванов",name:"Иван",patronymic:"Иванович",mark:100,},
+                {lname:"Петров",name:"Петр",patronymic:"Петрович",mark:10,},
+                {lname:"Сидоров",name:"Сидор",patronymic:"Сидорович",mark:900,},
+                {lname:"Михайлов",name:"Михаил",patronymic:"Михайлович",mark:75,},
+              ]
+            }, 
+            { name: "ЭМС-00-2", students:
+              [
+                {lname:"Романенко",name:"Юрий",patronymic:"Николаевич",mark:100,},
+                {lname:"Галышак",name:"Марьян",patronymic:"Иванович",mark:10,},
+                {lname:"Щерба",name:"Денис",patronymic:"Александрович",mark:900,},
+              ] 
+            }, 
+            { name: "ЭМС-00-3", students:
+              [
+                {lname:"Калашник",name:"Алексей",patronymic:"Александрович",mark:100,},
+						    {lname:"Фоменко",name:"Стасьян",patronymic:"Александрович",mark:10,},
+              ] 
+            }
+          ];
   signShowGroupOption: boolean = false;
   signAddNewGroupOption: boolean = false;
   signEditGroupOption: boolean = false;
@@ -36,6 +57,10 @@ export class AppComponent implements OnInit {
   captionEditGroupOption = "Редактировать выбранную группу";
   newNameEditGroup: string;
   newN: string;
+
+  numGroup: number = 2;
+  students = [];
+
   constructor() {}
   showGroupOption() {
     if (this.signShowGroupOption) {
@@ -46,7 +71,7 @@ export class AppComponent implements OnInit {
     // if (this.signAddNewGroupOption)
     ev.preventDefault();
     console.log(1);
-      this.groups.push({ name: this.form.get("name").value });
+      this.groups.push({ name: this.form.get("name").value, students: [] });
     this.resetAddForm();
   }
 
@@ -66,7 +91,7 @@ export class AppComponent implements OnInit {
     if (this.signEditGroupOption) {
       this.groups.forEach((item, idx) => {
         if (item.name == this.mainForm.get("mainFormSelect").value) {
-          console.log(1);
+          console.log(this.mainForm.get("mainFormSelect"));
           item.name = this.formEdit.get("name1")["controls"][0].value;
         }
       });
@@ -91,5 +116,24 @@ export class AppComponent implements OnInit {
   }
   resetMainForm() {
     this.mainForm.reset();
+  }
+
+  
+  onGroupChange() {
+    this.groups.forEach((item, idx) => {
+      if (item.name == this.mainForm.get("mainFormSelect").value) {
+        console.log(this.mainForm.get("mainFormSelect").value);
+        this.students = this.groups[idx].students;
+        //item.name = this.formEdit.get("name1")["controls"][0].value;
+      }
+    });
+  }
+
+  countOfGroup = function () {
+    var count = 0;
+      this.groups.forEach((item) => {
+        if (item) { count++ }
+      });    
+    return count;
   }
 }
