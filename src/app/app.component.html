@@ -304,14 +304,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr >
+          <tr *ngIf="showEditStudent">
             <td>
               <input
                 class="form-control"
                 type="text"
                 id="w1"
                 value=""
-                
+                placeholder="{{oldlname}}"
               />
             </td>
             <td>
@@ -321,7 +321,7 @@
                 id="w2"
                 value=""
                 placeholder="N data"
-                
+                placeholder="{{oldname}}"
               />
             </td>
             <td>
@@ -330,7 +330,7 @@
                 type="text"
                 id="w3"
                 value=""
-                
+                placeholder="{{oldpatronymic}}"
               />
             </td>
             <td>
@@ -339,7 +339,7 @@
                 type="text"
                 id="w4"
                 value=""
-                
+                placeholder="{{oldmark}}"
               />
             </td>
             <td>
@@ -353,22 +353,22 @@
           </tr>
           <tr *ngFor="let student of students">
             <td
-              
+              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
             >
               {{student.lname}}
             </td>
             <td
-              
+              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
             >
               {{student.name}} 
             </td>
             <td
-              
+              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
             >
               {{student.patronymic}}
             </td>
             <td
-              
+              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
             >
               {{student.mark}}
             </td>

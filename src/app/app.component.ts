@@ -60,6 +60,11 @@ export class AppComponent implements OnInit {
 
   numGroup: number = 2;
   students = [];
+  showEditStudent = false;
+  oldlname = '';
+  oldname = '';
+  oldpatronymic = '';
+  oldmark = 0;
 
   constructor() {}
   showGroupOption() {
@@ -135,5 +140,13 @@ export class AppComponent implements OnInit {
         if (item) { count++ }
       });    
     return count;
+  }
+
+  editStudent = function (lname,name,patronymic,mark) {
+    this.showEditStudent = true;	// Показать поля для редактирования
+    this.oldlname = lname;
+    this.oldname = name;
+    this.oldpatronymic = patronymic;
+    this.oldmark = mark;
   }
 }
