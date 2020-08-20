@@ -1,13 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6 offset-md-3 col-sm-12">
+    <div class="col-md-6 offset-md-3 col-sm-12 col-12">
       <div class="card bg-light">
         <form action="#" [formGroup]="mainForm" class="form-group">
           <!-- Head of Group -->
           <div class="form-group" style="display: flow-root;">
-            <label for="actionText" style="display: block;"
-              >Выбрать группу:</label
-            >
+            <label for="actionText" style="display: block;">Выбрать группу:</label>
             <select
               class="form-control ml-2 width-46"
               id="actionText"
@@ -282,158 +280,248 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="card-body">
+    <div class="card-body col-12">
       <div class="card-header bg-primary">
         <div class="card-title">
           <h3 class="text-center">
-            Выбрана группа {{mainForm.get("mainFormSelect").value}} из
-            <span class="label label-default" [ngClass]="{'badge-warning': countOfGroup() < 2, 'badge-success': countOfGroup() >= 2}">
-              {{countOfGroup()}}
+            Выбрана группа {{ mainForm.get("mainFormSelect").value }} из
+            <span
+              class="label label-default"
+              [ngClass]="{
+                'badge-warning': countOfGroup() < 2,
+                'badge-success': countOfGroup() >= 2
+              }"
+            >
+              {{ countOfGroup() }}
             </span>
           </h3>
         </div>
       </div>
-      <table class="table">
-        <thead style="background: #fc0;">
-          <tr>
-            <td>Фамилия</td>
-            <td>Имя</td>
-            <td>Отчество</td>
-            <td>Оценка</td>
-            <td>Действие</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngIf="showEditStudent">
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="w1"
-                value=""
-                placeholder="{{oldlname}}"
-              />
-            </td>
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="w2"
-                value=""
-                placeholder="N data"
-                placeholder="{{oldname}}"
-              />
-            </td>
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="w3"
-                value=""
-                placeholder="{{oldpatronymic}}"
-              />
-            </td>
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="w4"
-                value=""
-                placeholder="{{oldmark}}"
-              />
-            </td>
-            <td>
-              <button
-                class="btn btn-block btn-warning btnCustomer"
-                
+      <div class="container" *ngIf="showEditStudent">
+        <div class="row">
+          <div class="card-body col-12 col-md-6 col-lg-4">
+            <div class="card-header bg-primary ">
+              <form
+                action="#"
+                [formGroup]="formEditStudent"
               >
-                Редакцию закончить
-              </button>
-            </td>
-          </tr>
-          <tr *ngFor="let student of students">
-            <td
-              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
-            >
-              {{student.lname}}
-            </td>
-            <td
-              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
-            >
-              {{student.name}} 
-            </td>
-            <td
-              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
-            >
-              {{student.patronymic}}
-            </td>
-            <td
-              (click)="editStudent(student.lname, student.name, student.patronymic, student.mark)"
-            >
-              {{student.mark}}
-            </td>
-            <td>
-              <button
-                class="btn btn-block btn-danger text-center"
-                style="width: 35%;"
+              <table class="table">
+                <thead class="bg-warning">
+                  <tr>
+                    <td>Пункт</td>
+                    <td>Значение</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Фамилия</td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="w1"
+                        value=""
+                        placeholder="{{ oldlname }}"
+                        formControlName="lastName"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Имя</td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="w2"
+                        value=""
+                        placeholder="{{ oldname }}"
+                        formControlName="name"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Отчество</td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="w3"
+                        value=""
+                        placeholder="{{ oldpatronymic }}"
+                        formControlName="patronymic"
+                      />
+                    </td>
+                  </tr>  
+                  <tr>
+                    <td>Оценка</td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="w4"
+                        value=""
+                        placeholder="{{ oldmark }}"
+                        formControlName="mark"
+                      />
+                    </td>
+                  </tr>  
+                  <tr>
+                    <td colspan="2" align=center>
+                      <button class="btn btn-block btn-warning btnCustomer" (click)="finishedEditStudent()">
+                        Редакцию закончить
+                      </button>
+                    </td>
+                  </tr>  
+                </tbody>
+              </table>
+              </form>
+            </div>
+          </div> 
+          </div>
+      </div>    
+                  
+          <div class="container"  *ngIf="showMainStudentsTable">
+            <div class="row">
+          <div class="card-body col-12 col-md-6 col-lg-4"  *ngFor="let student of students; let ids = index" >
+            <div class="card-header bg-primary " >
+              <table class="table">
+                <thead style="background: #f7f76e;">
+                  <tr>
+                    <td>Пункт</td>
+                    <td>Значение</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr (click)="
+                  editStudent(
+                    student.lname,
+                    student.name,
+                    student.patronymic,
+                    student.mark,
+                    ids
+                  )
+                  ">
+                    <td>Фамилия</td>
+                    <td
+                      
+                    >
+                      {{ student.lname }}
+                    </td>
+                  </tr>
+                  <tr (click)="
+                  editStudent(
+                    student.lname,
+                    student.name,
+                    student.patronymic,
+                    student.mark,
+                    ids
+                  )
+                  ">
+                    <td>Имя</td>
+                    <td
+                      
+                    >
+                      {{ student.name }}
+                    </td>
+                  </tr>
+                  <tr
+                  (click)="
+                    editStudent(
+                      student.lname,
+                      student.name,
+                      student.patronymic,
+                      student.mark,
+                      ids
+                    )
+                  ">
+                    <td>Отчество</td>
+                    
+                    <td>
+                      {{ student.patronymic }}
+                    </td>
+                  </tr>
+                  <tr (click)="
+                  editStudent(
+                    student.lname,
+                    student.name,
+                    student.patronymic,
+                    student.mark,
+                    ids
+                  )
+                  ">
+                    <td>Оценка</td>
+                    <td
+                      
+                    >
+                      {{ student.mark }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <!-- <td>Действие</td> -->
+                    <td colspan="2" align=center>
+                      <button
+                        class="btn btn-block btn-danger text-center"
+                        style="width: 35%;"
+                      >
+                        &times;
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- <tr>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="v1"
+                        value=""
+                        placeholder=""
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="v2"
+                        value=""
+                        placeholder=""
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="v3"
+                        value=""
+                        placeholder=""
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="v4"
+                        value=""
+                        placeholder=""
+                      />
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-block btn-primary btnCustomer"
+                        id="button"
+                      >
+                        Внести изменения
+                      </button>
+                    </td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-                >
-                &times;
-              </button>
-            </td>
-          </tr>
-          <tr >
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="v1"
-                value=""
-                placeholder=""
-                
-              />
-            </td>
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="v2"
-                value=""
-                placeholder=""
-                
-              />
-            </td>
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="v3"
-                value=""
-                placeholder=""
-                
-              />
-            </td>
-            <td>
-              <input
-                class="form-control"
-                type="text"
-                id="v4"
-                value=""
-                placeholder=""
-                
-              />
-            </td>
-            <td>
-              <button
-                class="btn btn-block btn-primary btnCustomer"
-                id="button"
-                
-              >Внести изменения</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button class="btn btn-block btn-success" >
+        </div>
+      </div>
+      <button class="btn btn-block btn-success">
         Открыть поля ввода для добавления нового студента
       </button>
     </div>
