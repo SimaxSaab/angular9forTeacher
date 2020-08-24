@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   formEdit: FormGroup;
 
   formEditStudent: FormGroup;
+  formAddStudent: FormGroup;
 
   ngOnInit() {
     this.mainForm = new FormGroup({
@@ -32,6 +33,12 @@ export class AppComponent implements OnInit {
       name: new FormControl("", []),
       patronymic: new FormControl("", []),
       mark: new FormControl("", []),
+    });
+    this.formAddStudent = new FormGroup({
+      addLastName: new FormControl("", []),
+      addName: new FormControl("", []),
+      addPatronymic: new FormControl("", []),
+      addMark: new FormControl("", []),
     });
   }
 
@@ -96,7 +103,6 @@ export class AppComponent implements OnInit {
   newNameEditGroup: string;
   newN: string;
 
-  // numGroup: number = 2;
   students = [];
   showEditStudent = false;
   oldlname = "";
@@ -105,6 +111,7 @@ export class AppComponent implements OnInit {
   oldmark = 0;
   idStudent: number;
   showMainStudentsTable = true;
+  showAddStudent = false;
 
   constructor() {}
   showGroupOption() {
@@ -171,16 +178,18 @@ export class AppComponent implements OnInit {
         //item.name = this.formEdit.get("name1")["controls"][0].value;
       }
     });
+    
   }
 
   countOfGroup = function () {
-    var count = 0;
-    this.groups.forEach((item) => {
-      if (item) {
-        count++;
-      }
-    });
-    return count;
+    // var count = 0;
+    // this.groups.forEach((item) => {
+    //   if (item) {
+    //     count++;
+    //   }
+    // });
+    // return count;
+    return this.groups.length;
   };
 
   editStudent = function (lname, name, patronymic, mark, ids) {
@@ -261,5 +270,41 @@ export class AppComponent implements OnInit {
       });
     }
     this.formEditStudent.reset();
+  }
+
+  deleteStudent(indexSt) {
+    this.groups.forEach((item) => {
+      if (item.name == this.mainForm.get("mainFormSelect").value) {
+        item.students.forEach((itemS, id, arr) => {
+          if (id == indexSt) {
+            // console.log(this.formEditStudent.get("lastName").value);
+            // itemS.lname = this.formEditStudent.get("lastName").value;
+            arr.splice(id, 1);
+          }
+        });
+      }
+    });
+  }
+
+  countOfStudents = function() {
+    var count = 0;
+    this.groups.forEach((item) => {
+      if (item.name == this.mainForm.get("mainFormSelect").value) {
+        console.log(item.students.length);
+        count = item.students.length;
+      }
+    });
+    return count;
+    
+  };
+
+  addStudent() {
+    this.showAddStudent = true;
+    this.showMainStudentsTable = false;
+  }
+
+  finishedAddStudent() {
+    this.showAddStudent = false;
+    this.showMainStudentsTable = true;
   }
 }

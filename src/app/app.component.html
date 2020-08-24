@@ -6,179 +6,102 @@
           <!-- Head of Group -->
           <div class="form-group" style="display: flow-root;">
             <label for="actionText" style="display: block;">Выбрать группу:</label>
-            <select
-              class="form-control ml-2 width-46"
-              id="actionText"
-              formControlName="mainFormSelect"
-              (change)="onGroupChange()"
-            >
+            <select class="form-control ml-2 width-46" id="actionText" formControlName="mainFormSelect"
+              (change)="onGroupChange()">
               <option *ngFor="let g of groups" [value]="g.name">
                 <!--[value]="g.name"-->
                 {{ g.name }}
               </option>
             </select>
-            <button
-              class="btn btn-block btn-info mx-2 width-46 c1"
-              (click)="
+            <button class="btn btn-block btn-info mx-2 width-46 c1" (click)="
                 signShowGroupOption = !signShowGroupOption; showGroupOption()
-              "
-              [disabled]="
+              " [disabled]="
                 signAddNewGroupOption ||
                 signEditGroupOption ||
                 signDeleteGroupOption
-              "
-            >
+              ">
               {{ captionGroupOption }}
             </button>
           </div>
           <!-- Group option -->
           <div *ngIf="signShowGroupOption" class="form-group c2">
             <!-- NEW -->
-            <div
-              *ngIf="!signEditGroupOption && !signDeleteGroupOption"
-              class="form-group"
-            >
+            <div *ngIf="!signEditGroupOption && !signDeleteGroupOption" class="form-group">
               <hr class="c3" />
-              <form
-                action="#"
-                *ngIf="signAddNewGroupOption"
-                [formGroup]="form"
-                class="form-group"
-              >
-                <label for="addNewGroup" style="display: block;"
-                  >Новая группа:</label
-                >
-                <input
-                  (keydown.enter)="addNewGroup($event)"
-                  class="form-control ml-2 mb-2 width-46"
-                  type="text"
-                  name="name"
-                  id="addNewGroup"
-                  formControlName="name"
-                  required
-                />
-                <button
-                  (click)="
+              <form action="#" *ngIf="signAddNewGroupOption" [formGroup]="form" class="form-group">
+                <label for="addNewGroup" style="display: block;">Новая группа:</label>
+                <input (keydown.enter)="addNewGroup($event)" class="form-control ml-2 mb-2 width-46" type="text"
+                  name="name" id="addNewGroup" formControlName="name" required />
+                <button (click)="
                     signAddNewGroupOption = !signAddNewGroupOption;
                     resetAddForm()
-                  "
-                  class="btn btn-block btn-info mx-2 mb-2 width-46"
-                >
+                  " class="btn btn-block btn-info mx-2 mb-2 width-46">
                   Отмена
                 </button>
                 <div *ngIf="form.get('name').invalid" class="validation">
-                  <div
-                    class="small pl-2"
-                    *ngIf="
+                  <div class="small pl-2" *ngIf="
                       form.get('name').touched &&
                       form.get('name').errors.required
-                    "
-                  >
+                    ">
                     Поле ввода группы не может быть пустым.
                   </div>
-                  <div
-                    *ngIf="form.get('name').errors.minlength"
-                    class="small pl-2"
-                  >
+                  <div *ngIf="form.get('name').errors.minlength" class="small pl-2">
                     Длина должна быть не менее
                     {{ form.get("name").errors.minlength.requiredLength }}
                     знаков. Сейчас количество символов составляет
                     {{ form.get("name").errors.minlength.actualLength }}.
                   </div>
-                  <div
-                    class="small pl-2"
-                    *ngIf="form.get('name').errors.maxlength"
-                  >
+                  <div class="small pl-2" *ngIf="form.get('name').errors.maxlength">
                     Длина должна быть не более
                     {{ form.get("name").errors.maxlength.requiredLength }}
                     знаков. Сейчас количество символов составляет
                     {{ form.get("name").errors.maxlength.actualLength }}.
                   </div>
-                  <div
-                    class="small pl-2"
-                    *ngIf="form.get('name').errors.pattern"
-                  >
+                  <div class="small pl-2" *ngIf="form.get('name').errors.pattern">
                     Введите правильный формат группы: БББ-NN-N
                   </div>
                 </div>
-                <button
-                  (click)="
+                <button (click)="
                     addNewGroup($event);
                     signAddNewGroupOption = !signAddNewGroupOption
-                  "
-                  class="btn btn-block btn-success mx-2 buttonWidth-95"
-                  name="sub"
-                  [disabled]="form.invalid"
-                >
+                  " class="btn btn-block btn-success mx-2 buttonWidth-95" name="sub" [disabled]="form.invalid">
                   Создать
                 </button>
               </form>
-              <button
-                *ngIf="!signAddNewGroupOption"
-                (click)="signAddNewGroupOption = !signAddNewGroupOption"
-                class="btn btn-block btn-success mx-2 buttonWidth-95"
-              >
+              <button *ngIf="!signAddNewGroupOption" (click)="signAddNewGroupOption = !signAddNewGroupOption"
+                class="btn btn-block btn-success mx-2 buttonWidth-95">
                 Добавить новую группу
               </button>
             </div>
             <!-- EDIT -->
             <hr *ngIf="!signAddNewGroupOption" />
-            <div
-              *ngIf="!signAddNewGroupOption && !signDeleteGroupOption"
-              class="mb-2"
-            >
-              <form
-                action="#"
-                *ngIf="signEditGroupOption"
-                [formGroup]="formEdit"
-              >
+            <div *ngIf="!signAddNewGroupOption && !signDeleteGroupOption" class="mb-2">
+              <form action="#" *ngIf="signEditGroupOption" [formGroup]="formEdit">
                 <div formGroupName="name1">
-                  <label for="editGroup" style="display: block;"
-                    >Редактируем:</label
-                  >
-                  <div
-                    class=""
-                    *ngFor="
+                  <label for="editGroup" style="display: block;">Редактируем:</label>
+                  <div class="" *ngFor="
                       let control of formEdit.get('name1')['controls'];
                       let idx = index
-                    "
-                  >
-                    <input
-                      value="{{ mainForm.get('mainFormSelect').value }}"
-                      class="form-control ml-2 mb-2 width-46"
-                      type="text"
-                      id="editGroup"
-                      [formControlName]="idx"
-                    />
+                    ">
+                    <input value="{{ mainForm.get('mainFormSelect').value }}" class="form-control ml-2 mb-2 width-46"
+                      type="text" id="editGroup" [formControlName]="idx" />
                   </div>
-                  <button
-                    (click)="
+                  <button (click)="
                       signEditGroupOption = !signEditGroupOption;
                       deleteEditInput()
-                    "
-                    class="btn btn-block btn-info mx-2 mb-2 width-46"
-                  >
+                    " class="btn btn-block btn-info mx-2 mb-2 width-46">
                     Отмена
                   </button>
-                  <div
-                    *ngIf="formEdit.get('name1')['controls'][0].invalid"
-                    class="validation"
-                  >
-                    <div
-                      class="small pl-2"
-                      *ngIf="
+                  <div *ngIf="formEdit.get('name1')['controls'][0].invalid" class="validation">
+                    <div class="small pl-2" *ngIf="
                         formEdit.get('name1')['controls'][0].touched &&
                         formEdit.get('name1')['controls'][0].errors.required
-                      "
-                    >
+                      ">
                       Поле ввода группы не может быть пустым.
                     </div>
-                    <div
-                      class="small pl-2"
-                      *ngIf="
+                    <div class="small pl-2" *ngIf="
                         formEdit.get('name1')['controls'][0].errors.minlength
-                      "
-                    >
+                      ">
                       Длина должна быть не менее
                       {{
                         formEdit.get("name1")["controls"][0].errors.minlength
@@ -190,12 +113,9 @@
                           .actualLength
                       }}.
                     </div>
-                    <div
-                      class="small pl-2"
-                      *ngIf="
+                    <div class="small pl-2" *ngIf="
                         formEdit.get('name1')['controls'][0].errors.maxlength
-                      "
-                    >
+                      ">
                       Длина должна быть не более
                       {{
                         formEdit.get("name1")["controls"][0].errors.maxlength
@@ -207,36 +127,26 @@
                           .actualLength
                       }}.
                     </div>
-                    <div
-                      class="small pl-2"
-                      *ngIf="
+                    <div class="small pl-2" *ngIf="
                         formEdit.get('name1')['controls'][0].errors.pattern
-                      "
-                    >
+                      ">
                       Введите правильный формат группы: БББ-NN-N
                     </div>
                   </div>
-                  <button
-                    (click)="
+                  <button (click)="
                       editGroup();
                       signEditGroupOption = !signEditGroupOption;
                       resetMainForm()
-                    "
-                    class="btn btn-block btn-warning mx-2 buttonWidth-95"
-                    [disabled]="formEdit.get('name1')['controls'][0].invalid"
-                  >
+                    " class="btn btn-block btn-warning mx-2 buttonWidth-95"
+                    [disabled]="formEdit.get('name1')['controls'][0].invalid">
                     Применить
                   </button>
                 </div>
               </form>
-              <button
-                *ngIf="!signEditGroupOption"
-                (click)="
+              <button *ngIf="!signEditGroupOption" (click)="
                   signEditGroupOption = !signEditGroupOption; addEditGroup()
-                "
-                class="btn btn-block btn-warning mx-2 buttonWidth-95"
-                [disabled]="mainForm.get('mainFormSelect').pristine"
-              >
+                " class="btn btn-block btn-warning mx-2 buttonWidth-95"
+                [disabled]="mainForm.get('mainFormSelect').pristine">
                 Редактировать выбранную группу
               </button>
             </div>
@@ -245,30 +155,20 @@
               <p *ngIf="signDeleteGroupOption" style="text-align: center;">
                 Удалить безвозвратно?
               </p>
-              <button
-                *ngIf="signDeleteGroupOption"
-                (click)="
+              <button *ngIf="signDeleteGroupOption" (click)="
                   deleteGroup();
                   signDeleteGroupOption = !signDeleteGroupOption;
                   resetMainForm()
-                "
-                class="btn btn-danger ml-2 width-46"
-              >
+                " class="btn btn-danger ml-2 width-46">
                 Да
               </button>
-              <button
-                *ngIf="signDeleteGroupOption"
-                (click)="signDeleteGroupOption = !signDeleteGroupOption"
-                class="btn btn-success mx-2 width-46"
-              >
+              <button *ngIf="signDeleteGroupOption" (click)="signDeleteGroupOption = !signDeleteGroupOption"
+                class="btn btn-success mx-2 width-46">
                 Нет
               </button>
-              <button
-                *ngIf="!signDeleteGroupOption"
-                (click)="signDeleteGroupOption = !signDeleteGroupOption"
+              <button *ngIf="!signDeleteGroupOption" (click)="signDeleteGroupOption = !signDeleteGroupOption"
                 class="btn btn-block btn-danger mx-2 buttonWidth-95"
-                [disabled]="mainForm.get('mainFormSelect').pristine"
-              >
+                [disabled]="mainForm.get('mainFormSelect').pristine">
                 Удалить выбранную группу
               </button>
             </div>
@@ -278,112 +178,83 @@
     </div>
   </div>
 </div>
-<div class="container">
+<div class="container" *ngIf="mainForm.get('mainFormSelect').value">
   <div class="row">
     <div class="card-body col-12">
       <div class="card-header bg-primary">
         <div class="card-title">
           <h3 class="text-center">
             Выбрана группа {{ mainForm.get("mainFormSelect").value }} из
-            <span
-              class="label label-default"
-              [ngClass]="{
+            <span class="label label-default" [ngClass]="{
                 'badge-warning': countOfGroup() < 2,
                 'badge-success': countOfGroup() >= 2
-              }"
-            >
+              }">
               {{ countOfGroup() }}
             </span>
           </h3>
+          <h3 class="text-center">Количество студентов <span>{{ countOfStudents() }}</span></h3>
         </div>
       </div>
       <div class="container" *ngIf="showEditStudent">
         <div class="row">
           <div class="card-body col-12 col-md-6 col-lg-4">
             <div class="card-header bg-primary ">
-              <form
-                action="#"
-                [formGroup]="formEditStudent"
-              >
-              <table class="table">
-                <thead class="bg-warning">
-                  <tr>
-                    <td>Пункт</td>
-                    <td>Значение</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Фамилия</td>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="w1"
-                        value=""
-                        placeholder="{{ oldlname }}"
-                        formControlName="lastName"
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Имя</td>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="w2"
-                        value=""
-                        placeholder="{{ oldname }}"
-                        formControlName="name"
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Отчество</td>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="w3"
-                        value=""
-                        placeholder="{{ oldpatronymic }}"
-                        formControlName="patronymic"
-                      />
-                    </td>
-                  </tr>  
-                  <tr>
-                    <td>Оценка</td>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="w4"
-                        value=""
-                        placeholder="{{ oldmark }}"
-                        formControlName="mark"
-                      />
-                    </td>
-                  </tr>  
-                  <tr>
-                    <td colspan="2" align=center>
-                      <button class="btn btn-block btn-warning btnCustomer" (click)="finishedEditStudent()">
-                        Редакцию закончить
-                      </button>
-                    </td>
-                  </tr>  
-                </tbody>
-              </table>
+              <form action="#" [formGroup]="formEditStudent">
+                <table class="table">
+                  <thead class="bg-warning">
+                    <tr>
+                      <td>Пункт</td>
+                      <td>Значение</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Фамилия</td>
+                      <td>
+                        <input class="form-control" type="text" id="w1" value="" placeholder="{{ oldlname }}"
+                          formControlName="lastName" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Имя</td>
+                      <td>
+                        <input class="form-control" type="text" id="w2" value="" placeholder="{{ oldname }}"
+                          formControlName="name" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Отчество</td>
+                      <td>
+                        <input class="form-control" type="text" id="w3" value="" placeholder="{{ oldpatronymic }}"
+                          formControlName="patronymic" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Оценка</td>
+                      <td>
+                        <input class="form-control" type="text" id="w4" value="" placeholder="{{ oldmark }}"
+                          formControlName="mark" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" align=center>
+                        <button class="btn btn-block btn-warning btnCustomer" (click)="finishedEditStudent()">
+                          Редакцию закончить
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </form>
             </div>
-          </div> 
           </div>
-      </div>    
-                  
-          <div class="container"  *ngIf="showMainStudentsTable">
-            <div class="row">
-          <div class="card-body col-12 col-md-6 col-lg-4"  *ngFor="let student of students; let ids = index" >
-            <div class="card-header bg-primary " >
+        </div>
+      </div>
+
+      <div class="container" *ngIf="showMainStudentsTable">
+        <div class="row">
+          <div class="card-body col-12 col-md-6 col-lg-4" *ngFor="let student of students; let ids = index">
+            <div class="card-header bg-primary ">
               <table class="table">
                 <thead style="background: #f7f76e;">
                   <tr>
@@ -392,7 +263,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  
+
                   <tr (click)="
                   editStudent(
                     student.lname,
@@ -403,9 +274,7 @@
                   )
                   ">
                     <td>Фамилия</td>
-                    <td
-                      
-                    >
+                    <td>
                       {{ student.lname }}
                     </td>
                   </tr>
@@ -419,14 +288,11 @@
                   )
                   ">
                     <td>Имя</td>
-                    <td
-                      
-                    >
+                    <td>
                       {{ student.name }}
                     </td>
                   </tr>
-                  <tr
-                  (click)="
+                  <tr (click)="
                     editStudent(
                       student.lname,
                       student.name,
@@ -436,7 +302,7 @@
                     )
                   ">
                     <td>Отчество</td>
-                    
+
                     <td>
                       {{ student.patronymic }}
                     </td>
@@ -451,19 +317,14 @@
                   )
                   ">
                     <td>Оценка</td>
-                    <td
-                      
-                    >
+                    <td>
                       {{ student.mark }}
                     </td>
                   </tr>
                   <tr>
                     <!-- <td>Действие</td> -->
                     <td colspan="2" align=center>
-                      <button
-                        class="btn btn-block btn-danger text-center"
-                        style="width: 35%;"
-                      >
+                      <button class="btn btn-block btn-danger text-center" style="width: 35%;" (click)="deleteStudent(ids)">
                         &times;
                       </button>
                     </td>
@@ -521,7 +382,63 @@
 
         </div>
       </div>
-      <button class="btn btn-block btn-success">
+
+      <div class="container" *ngIf="showAddStudent">
+        <div class="row">
+          <div class="card-body col-12 col-md-6 col-lg-4">
+            <div class="card-header bg-primary ">
+              <form action="#" [formGroup]="formAddStudent">
+                <table class="table">
+                  <thead class="bg-warning">
+                    <tr>
+                      <td>Пункт</td>
+                      <td>Значение</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Фамилия</td>
+                      <td>
+                        <input class="form-control" type="text" id="w1" value="" placeholder="{{ oldlname }}"
+                          formControlName="addLastName" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Имя</td>
+                      <td>
+                        <input class="form-control" type="text" id="w2" value="" placeholder="{{ oldname }}"
+                          formControlName="addName" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Отчество</td>
+                      <td>
+                        <input class="form-control" type="text" id="w3" value="" placeholder="{{ oldpatronymic }}"
+                          formControlName="addPatronymic" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Оценка</td>
+                      <td>
+                        <input class="form-control" type="text" id="w4" value="" placeholder="{{ oldmark }}"
+                          formControlName="addMark" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" align=center>
+                        <button class="btn btn-block btn-warning btnCustomer" (click)="finishedAddStudent()">
+                          Добавить студента
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-block btn-success"  *ngIf="showMainStudentsTable" (click)="addStudent()">
         Открыть поля ввода для добавления нового студента
       </button>
     </div>
