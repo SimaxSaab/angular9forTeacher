@@ -306,5 +306,15 @@ export class AppComponent implements OnInit {
   finishedAddStudent() {
     this.showAddStudent = false;
     this.showMainStudentsTable = true;
+    this.groups.forEach((item) => {
+      if (item.name == this.mainForm.get("mainFormSelect").value) {
+        item.students.push({
+          lname: this.formAddStudent.get("addLastName").value,
+          name: this.formAddStudent.get("addName").value,
+          patronymic: this.formAddStudent.get("addPatronymic").value,
+          mark: this.formAddStudent.get("addMark").value,
+        });
+      }
+    });
   }
 }

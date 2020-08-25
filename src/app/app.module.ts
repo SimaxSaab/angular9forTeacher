@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { AlphabitPipe } from './pipes/alphabit.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AlphabitPipe
   ],
   imports: [
     BrowserModule,

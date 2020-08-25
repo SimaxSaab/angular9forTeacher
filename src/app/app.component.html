@@ -1,11 +1,32 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6 offset-md-3 col-sm-12 col-12">
+    <div class="col-md-6 offset-md-3 col-sm-12 col-12 mt-3">
+      <div class="card bg-light">
+        <details class="ml-2">
+          <summary>
+            Описание
+          </summary>
+            <p class="mx-3 para" style="text-align: justify; text-indent: 10%;">
+              Вы можете добавлять новые, редактировать и удалять существующие группы и производить такие же действия со студентами. 
+            </p>
+            <p class="mx-3 para">Цель приложения - вести учет оценок учащихся.</p>
+        </details> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 col-sm-12 col-12 mt-3">
       <div class="card bg-light">
         <form action="#" [formGroup]="mainForm" class="form-group">
           <!-- Head of Group -->
-          <div class="form-group" style="display: flow-root;">
-            <label for="actionText" style="display: block;">Выбрать группу:</label>
+          <div class="form-group">
+             <!-- style="display: flow-root;"> -->
+            <label for="actionText" class="ml-3">
+               <!-- style="display: block;"> -->
+              Выбрать группу:</label>
+              <div class="clearfix"></div>
             <select class="form-control ml-2 width-46" id="actionText" formControlName="mainFormSelect"
               (change)="onGroupChange()">
               <option *ngFor="let g of groups" [value]="g.name">
@@ -23,6 +44,7 @@
               {{ captionGroupOption }}
             </button>
           </div>
+          <div class="clearfix"></div>
           <!-- Group option -->
           <div *ngIf="signShowGroupOption" class="form-group c2">
             <!-- NEW -->
@@ -253,8 +275,9 @@
 
       <div class="container" *ngIf="showMainStudentsTable">
         <div class="row">
-          <div class="card-body col-12 col-md-6 col-lg-4" *ngFor="let student of students; let ids = index">
+          <div class="card-body col-12 col-md-6 col-lg-4" *ngFor="let student of students | alphabit; let ids = index">
             <div class="card-header bg-primary ">
+              <h4 class="text-center">{{ids + 1}}</h4>
               <table class="table">
                 <thead style="background: #f7f76e;">
                   <tr>
@@ -329,52 +352,7 @@
                       </button>
                     </td>
                   </tr>
-                  <!-- <tr>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="v1"
-                        value=""
-                        placeholder=""
-                      />
-                    </td>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="v2"
-                        value=""
-                        placeholder=""
-                      />
-                    </td>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="v3"
-                        value=""
-                        placeholder=""
-                      />
-                    </td>
-                    <td>
-                      <input
-                        class="form-control"
-                        type="text"
-                        id="v4"
-                        value=""
-                        placeholder=""
-                      />
-                    </td>
-                    <td>
-                      <button
-                        class="btn btn-block btn-primary btnCustomer"
-                        id="button"
-                      >
-                        Внести изменения
-                      </button>
-                    </td>
-                  </tr> -->
+                  
                 </tbody>
               </table>
             </div>
@@ -399,21 +377,21 @@
                     <tr>
                       <td>Фамилия</td>
                       <td>
-                        <input class="form-control" type="text" id="w1" value="" placeholder="{{ oldlname }}"
+                        <input class="form-control" type="text" id="w1" value="" placeholder="Казимиров"
                           formControlName="addLastName" />
                       </td>
                     </tr>
                     <tr>
                       <td>Имя</td>
                       <td>
-                        <input class="form-control" type="text" id="w2" value="" placeholder="{{ oldname }}"
+                        <input class="form-control" type="text" id="w2" value="" placeholder="Казимир"
                           formControlName="addName" />
                       </td>
                     </tr>
                     <tr>
                       <td>Отчество</td>
                       <td>
-                        <input class="form-control" type="text" id="w3" value="" placeholder="{{ oldpatronymic }}"
+                        <input class="form-control" type="text" id="w3" value="" placeholder="Казимирович"
                           formControlName="addPatronymic" />
                       </td>
                     </tr>
@@ -438,7 +416,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-block btn-success"  *ngIf="showMainStudentsTable" (click)="addStudent()">
+      <button class="btn btn-block btn-success col-md-6 offset-md-3 col-sm-12 col-12"  *ngIf="showMainStudentsTable" (click)="addStudent()">
         Открыть поля ввода для добавления нового студента
       </button>
     </div>
