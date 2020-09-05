@@ -203,7 +203,7 @@
 <div class="container" *ngIf="mainForm.get('mainFormSelect').value">
   <div class="row">
     <div class="card-body col-12">
-      <div class="card-header bg-primary">
+      <div class="card-header bg-info">
         <div class="card-title">
           <h3 class="text-center">
             Выбрана группа {{ mainForm.get("mainFormSelect").value }} из
@@ -276,7 +276,7 @@
       <div class="container" *ngIf="showMainStudentsTable">
         <div class="row">
           <div class="card-body col-12 col-md-6 col-lg-4" *ngFor="let student of students | alphabit; let ids = index">
-            <div class="card-header bg-primary ">
+            <div class="card-header bg-info">
               <h4 class="text-center">{{ids + 1}}</h4>
               <table class="table">
                 <thead style="background: #f7f76e;">
